@@ -17,7 +17,7 @@
     align-items: center;
 }
 .playBtn {
-    background-color: #ffff63;
+    background-color: #6cceff;
 }
 
 .levelBtns.easy {
@@ -52,4 +52,8 @@
     font-size: 25px;
     font-family: 'Rye', serif;
     cursor: pointer;
+}
+
+.quitGameBtn {
+    background-color: #ff3d3d;
 }
