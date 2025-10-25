@@ -8,14 +8,31 @@ body {
     background-repeat: repeat;
     background-size: cover;
 }
-
 h1 {
+    margin: 0;
     text-align: center;
     font-weight: normal;
     font-size: 90px;
     font-family: 'Rye', serif;
     color: #ffee02;
     letter-spacing: 2px;
+    
+}
+h2 {
+    margin: 0;
+    text-align: center;
+    font-weight: 600;
+    font-size: 100px;
+    font-family: 'Asimovian', sans-serif;
+    color: #4eff02;
+    letter-spacing: 2px;
+}
+p {
+    margin: 0;
+    text-align: center;
+    color: #808080;
+    font-family: 'Rye', serif;
+    font-size: 40px;
 }
 
 .game {
@@ -58,4 +75,26 @@ h1 {
 }
 .ball2 img {
     width: 100%;
+}
+
+/* UFO */
+.ufo {
+    position: fixed;
+    top: 100px;
+    left: 90px;
+    animation: float 4s ease-in-out infinte;
+}
+.ufo img {
+    width: 50%;
+}
+
+.animal-planet {
+    position: fixed;
+    bottom: 100px;
+    right: 10px;
+    animation: float 4s ease-in-out infinte;
+}
+.animal-planet img {
+    width: 50%;
+    animation: float 4s ease-in-out infinte;
 }
