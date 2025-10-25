@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slingshot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+    <!-- Shapes -->
+    <div class="stage">
+        <div class="ball"></div>
+        <div class="ball2"></div>
+    </div>
+
+    <!-- Game -->
+    <div class="game">
+        <h1>Slingshot</h1>
+        <div class="play">
+            <button class="playBtn" id="playBtn">Play Game</button>
+            <a href="../index.html"><button class="quitBtn">Quit</button></a>
+        </div>
+
+        <!-- Choose level -->
+        <div id="levelBtns">
+            <a href="easy-level.html"><button class="levelBtns easy">Easy</button></a>
+            <button class="levelBtns med">Medium</button>
+            <a href="hard-level.html"><button class="levelBtns hard">Hard</button></a>
+        </div>
+    </div>
+
+    <!-- Shapes -->
+    <div class="stage2">
+        <div class="ball"></div>
+        <div class="ball2"></div>
+    </div>
+
+    <script>
+        // Get buttons
+        const playBtn = document.getElementById( 'playBtn' );
+        const levelBtns = document.getElementById( 'levelBtns' );
+
+        // When 'Play Game' is clicked
+        playBtn.addEventListener( 'click', () => {
+            // Hide 'Play Game' Button
+            playBtn.style.display = 'none';
+            // Show level buttons
+            levelBtns.style.display = 'flex';
+        });
+    </script>
+</body>
+</html>
