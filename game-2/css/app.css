@@ -82,7 +82,6 @@ p {
     position: fixed;
     top: 100px;
     left: 90px;
-    animation: float 4s ease-in-out infinte;
 }
 .ufo img {
     width: 50%;
@@ -91,10 +90,8 @@ p {
 .animal-planet {
     position: fixed;
     bottom: 100px;
-    right: 10px;
-    animation: float 4s ease-in-out infinte;
+    right: 30px;
 }
 .animal-planet img {
     width: 50%;
-    animation: float 4s ease-in-out infinte;
 }

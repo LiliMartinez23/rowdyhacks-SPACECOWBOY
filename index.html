@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Galactic Games</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Kumar+One&display=swap" rel="stylesheet">
 
     <link rel="icon" type="image/x-icon" href="duckicon.png">
@@ -25,12 +25,27 @@
             transform: scale(1.1);
         }
 
+        .games {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 20px;
+        }
     </style>
 </head>
 <body style="background-image: url('spacebg.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;">
     <h1 style="text-align: center; color: rgb(242, 249, 165); font-size: 100px;">Galactic Games</h1>
-    <br>
-    <a href="game-2/cowboys-vs-aliens.html">COWBOYS vs ALIENS</a>
+
+    <div class="games">
+        <!-- Cowboys vs. Aliens -->
+        <a href="/game-2/cowboys-vs-aliens.html">
+            <img src="lilis-game.jpg" style="border: 5px solid rgb(233, 226, 179);">
+        </a>
+        <!-- Starfire -->
+        <a href="https://www.roblox.com/Login">
+            <img src="robloxlogo.jpg" style="border: 5px solid rgb(233, 226, 179);">
+        </a>
+    </div>
 </body>
 </html>
-
