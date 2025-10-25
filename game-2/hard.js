@@ -9,7 +9,8 @@ let render = Matter.Render.create({
         // Adjusts to all screen sizes
         width: innerWidth,
         height: innerHeight,
-        wireframes: false
+        wireframes: false,
+        background: 'transparent'
     }
 });
 
