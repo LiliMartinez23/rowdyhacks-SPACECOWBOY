@@ -1,5 +1,6 @@
 .playBtn,
-.levelBtns {
+.levelBtns,
+.quitBtn {
     width: 200px;
     height: 50px;
     margin: 0.5rem;
@@ -11,6 +12,7 @@
 
 .play {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
 }
