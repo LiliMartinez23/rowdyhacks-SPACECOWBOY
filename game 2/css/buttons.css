@@ -1,0 +1,53 @@
+.playBtn,
+.levelBtns {
+    width: 200px;
+    height: 50px;
+    margin: 0.5rem;
+    border: solid 3px #000;
+    font-size: 25px;
+    font-family: 'Bangers', system-ui;
+    cursor: pointer;
+}
+
+.play {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.playBtn {
+    background-color: #ffff63;
+}
+
+.levelBtns.easy {
+    background-color: #3dc63d;
+}
+.levelBtns.med {
+    background-color: #6cceff;
+}
+.levelBtns.hard {
+    background-color: #ff3d3d;
+}
+
+.levelBtns {
+    transition: transform 0.3s ease;
+}
+.levelBtns:hover {
+    transform: scale(1.025);
+}
+
+/* display level buttons */
+#levelBtns {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.backBtn {
+    width: 150px;
+    height: 40px;
+    border: solid 3px #000;
+    font-size: 25px;
+    font-family: 'Bangers', system-ui;
+    cursor: pointer;
+}

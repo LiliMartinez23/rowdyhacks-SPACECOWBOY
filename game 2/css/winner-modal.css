@@ -1,0 +1,56 @@
+.winner-modal {
+    position: fixed; 
+    inset: 0;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: #00000099;
+    z-index: 1000;
+}
+
+.winner-modal.show {
+    display: flex;
+}
+
+.winner-panel {
+    background: #fff;
+    color: #111;
+    padding: 24px 28px;
+    border-radius: 14px;
+    width: min(90vw, 420px);
+    font-family: "Bangers", system-ui;
+    text-align: center;
+    box-shadow: 0 10px 30px #00000040;
+}
+
+.winner-title {
+    font-family: "Bangers", system-ui;
+    font-size: 50px;
+    letter-spacing: 1px;
+    margin: 0 0 12px;
+    color: #ffd900;
+    -webkit-text-stroke: 0.25px #1b1b1b;
+}
+
+.winner-actions {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.winner-actions button {
+    font-family: "Bangers", system-ui;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: #222;
+    color: #fff;
+}
+
+.winner-actions button:hover {
+    filter: brightness(1.1);
+}
+.action-btn {
+    font-size: 25px;
+}
