@@ -41,7 +41,7 @@ let ufo3 = createUFO( 735, 160, 130 );
 
 // Star and sling
 const origin = { x: 300, y: 500 };
-const starRadius = 20;
+const starRadius = 15;
 const starImgPx = 200;
 const starScale = ( starRadius * 2 ) / starImgPx;
 
@@ -67,6 +67,8 @@ let sling = Matter.Constraint.create({
         lineWidth: 2
     }
 });
+const maxTries = 10;
+let triesLeft = maxTries;
 
 // Mouse
 let mouse = Matter.Mouse.create( render.canvas );
@@ -113,15 +115,32 @@ alienStack3.label = 'Aliens Stack 3';
 // Firing
 let firing = false;
 Matter.Events.on( mouseConstraint, 'enddrag', function( e ) {
-    if ( e.body === star ) firing = true;
+    if ( star && e.body === star && triesLeft > 0 ) {
+        firing = true;
+        triesLeft--;
+    }
 });
 Matter.Events.on( engine, 'afterUpdate', function() {
-    if ( firing && Math.abs( star.position.x - origin.x) < 20 && Math.abs( star.position.y - origin.y ) < 20 ) {
-        star = createStar();
-        // Adding new ball after firing
-        Matter.World.add( engine.world, star );
-        sling.bodyB = star;
+    if ( !star ) return;
+
+    const nearOrigin =
+    Math.abs( star.position.x - origin.x ) < 20 &&
+    Math.abs( star.position.y - origin.y ) < 20;
+
+    if ( firing && nearOrigin ) {
         firing = false;
+
+        if ( triesLeft > 0 ) {
+            star = createStar();
+            Matter.World.add( engine.world, star );
+            sling.bodyB = star;
+        } else {
+            sling.bodyB = null;
+            // Matter.World.remove( engine.world, star );
+            star.isStatic = true;
+            star.collisionFilter.mask = 0;
+            star = null;
+        }
     }
 });
 
@@ -194,6 +213,8 @@ Matter.Events.on( engine, 'afterUpdate', function seedOnce() {
 
 // Winner Check
 let hasWon = false;
+let hasLost = false;
+
 function showWinnerModal() {
     const modal = document.getElementById( 'winnerModal' );
     if ( !modal ) return;
@@ -210,6 +231,23 @@ function showWinnerModal() {
         window.location.href = 'cowboys-vs-aliens.html';
     });
 }
+function showLostModal() {
+    const modal = document.getElementById( 'lostModal' );
+    if ( !modal ) return;
+    engine.timing.timeScale = 0;
+    modal.classList.add( 'show' );
+
+    modal.querySelector( '#playAgainBtnLost' )?.addEventListener( 'click', () => {
+        window.location.reload();
+    });
+    modal.querySelector( '#newLevelBtnLost' )?.addEventListener( 'click', () => {
+        window.location.href = 'cowboys-vs-aliens.html';
+    });
+    modal.querySelector( '#quitBtnLost' )?.addEventListener( 'click', () => {
+        window.location.href = 'cowboys-vs-aliens.html';
+    });
+}
+
 Matter.Events.on( engine, 'afterUpdate', function () {
     if ( !hasWon ) {
         const allPlatformsEmpty = aliensOn.size === 0;
@@ -217,6 +255,12 @@ Matter.Events.on( engine, 'afterUpdate', function () {
             hasWon = true;
             showWinnerModal();
         }
+    }
+});
+Matter.Events.on( engine, 'afterUpdate', function() {
+    if ( !hasLost && !hasWon && triesLeft === 0 && !star ) {
+        hasLost = true;
+        showLostModal();
     }
 });
 
