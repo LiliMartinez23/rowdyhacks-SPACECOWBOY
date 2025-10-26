@@ -1,7 +1,7 @@
 @import url('buttons.css');
 @import url('animations.css');
 @import url('winner-modal.css');
-@import url('easy.css');
+@import url('avatar.css');
 
 body {
     background-image: url('../img/space-background.png');

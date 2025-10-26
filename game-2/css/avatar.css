@@ -1,0 +1,25 @@
+.avatar,
+.avatar * {
+    pointer-events: none;
+    user-select: none;
+}
+
+.avatar {
+    position: fixed;
+    bottom: 80px;
+    left: 70px;
+}
+.avatar img {
+    width: 30%;
+    animation: float 4s ease-in-out infinite;
+    will-change: transform;
+}
+
+.matter-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 0;
+}
