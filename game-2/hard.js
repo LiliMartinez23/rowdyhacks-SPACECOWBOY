@@ -150,10 +150,10 @@ function showWinnerModal() {
         window.location.reload();
     });
     document.getElementById( 'newLevelBtn' )?.addEventListener( 'click', () => {
-        window.location.href = 'index.html';
+        window.location.href = 'cowboys-vs-aliens.html';
     });
     document.getElementById( 'quitBtn' )?.addEventListener( 'click', () => {
-        window.location.href = 'index.html';
+        window.location.href = 'cowboys-vs-aliens.html';
     });
 }
 Matter.Events.on( engine, 'afterUpdate', function () {

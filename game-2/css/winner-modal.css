@@ -18,18 +18,18 @@
     padding: 24px 28px;
     border-radius: 14px;
     width: min(90vw, 420px);
-    font-family: "Bangers", system-ui;
+    font-family: "Rye", serif;
     text-align: center;
     box-shadow: 0 10px 30px #00000040;
 }
 
 .winner-title {
-    font-family: "Bangers", system-ui;
+    font-weight: normal;
+    font-family: "Rye", serif;
     font-size: 50px;
     letter-spacing: 1px;
     margin: 0 0 12px;
-    color: #ffd900;
-    -webkit-text-stroke: 0.25px #1b1b1b;
+    color: #000000;
 }
 
 .winner-actions {
@@ -39,7 +39,7 @@
 }
 
 .winner-actions button {
-    font-family: "Bangers", system-ui;
+    font-family: "Rye", serif;
     padding: 12px 16px;
     border-radius: 10px;
     border: none;

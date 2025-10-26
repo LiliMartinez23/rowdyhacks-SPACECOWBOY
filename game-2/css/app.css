@@ -1,6 +1,7 @@
 @import url('buttons.css');
 @import url('animations.css');
 @import url('winner-modal.css');
+@import url('easy.css');
 
 body {
     background-image: url('../img/space-background.png');
@@ -89,6 +90,7 @@ p {
     will-change: transform;
 }
 
+/* Animal on planet */
 .animal-planet {
     position: fixed;
     bottom: 100px;
@@ -100,6 +102,7 @@ p {
     will-change: transform;
 }
 
+/* Animal on rocket */
 .rocket {
     position: fixed;
     bottom: 140px;
