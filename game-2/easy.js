@@ -16,14 +16,6 @@ let render = Matter.Render.create({
 
 // Platform
 const slope = 0.35;
-// let ground = Matter.Bodies.trapezoid( 875, 440, 250, 25, slope, { 
-//     isStatic: true,
-//     chamfer: { radius: 6 },
-//     render: {
-//         fillStyle: '#004987',
-//         lineWidth: 2
-//     }
-// });
 
 // UFO
 const ufoBodyW = 250;

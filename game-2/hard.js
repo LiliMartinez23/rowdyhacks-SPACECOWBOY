@@ -14,19 +14,58 @@ let render = Matter.Render.create({
     }
 });
 
-// Platform 1
-let ground = Matter.Bodies.rectangle( 890, 440, 230, 20, { isStatic: true} );
-// Platform 2
-let ground2 = Matter.Bodies.rectangle( 590, 500, 230, 20, { isStatic: true} );
-// Platform 3
-let ground3 = Matter.Bodies.rectangle( 735, 160, 130, 20, { isStatic: true} );
+// UFO's
+const slope = 0.35;
+const ufoImgPxW = 300;
+const ufoImgPxH = 25;
 
-// Ball and Sling
-let ball = Matter.Bodies.circle( 300, 500, 20, { label: 'playerBall' } );
+function createUFO( x, y, bodyW, bodyH = 25 ) {
+    const ufoScaleX = bodyW / ufoImgPxW;
+    const ufoScaleY = bodyH / ufoImgPxH;
+    return Matter.Bodies.trapezoid( x, y, bodyW, bodyH, slope, {
+        isStatic: true,
+        chamfer: { radius: 6 },
+        label: 'ufoPlatform',
+        render: {
+            sprite: {
+                texture: 'img/ufo.png',
+                xScale: ufoScaleX,
+                yScale: ufoScaleY
+            }
+        }
+    });
+}
+let ufo1 = createUFO( 890, 440, 230 );
+let ufo2 = createUFO( 590, 500, 230 );
+let ufo3 = createUFO( 735, 160, 130 );
+
+// Star and sling
+const origin = { x: 300, y: 500 };
+const starRadius = 20;
+const starImgPx = 200;
+const starScale = ( starRadius * 2 ) / starImgPx;
+
+function createStar( x = origin.x, y = origin.y ) {
+    return Matter.Bodies.circle( x, y, starRadius, {
+        label: 'playerStar',
+        render: {
+            sprite: {
+                texture: 'img/star.png',
+                xScale: starScale,
+                yScale: starScale
+            }
+        }
+    });
+}
+let star = createStar();
 let sling = Matter.Constraint.create({
-    pointA: { x: 300, y: 500 },
-    bodyB: ball,
-    stiffness: 0.05
+    pointA: { x: origin.x, y: origin.y },
+    bodyB: star,
+    stiffness: 0.015,
+    render: {
+        strokeStyle: '#c09452',
+        lineWidth: 2
+    }
 });
 
 // Mouse
@@ -39,33 +78,49 @@ let mouseConstraint = Matter.MouseConstraint.create( engine, {
 });
 render.mouse = mouse;
 
-// Stack 1
-let stack = Matter.Composites.stack( 815, 270, 4, 4, 0, 0, function( x, y ) {
-    return Matter.Bodies.polygon( x, y, 8, 20 );
-});
-stack.label = 'Stack 1';
-// Stack 2
-let stack2 = Matter.Composites.stack( 515, 270, 4, 4, 0, 0, function( x, y ) {
-    return Matter.Bodies.polygon( x, y, 8, 20 );
-});
-stack2.label = 'Stack 2';
-// Stack 3
-let stack3 = Matter.Composites.stack( 700, 60, 2, 2, 0, 0, function( x, y ) {
-    return Matter.Bodies.polygon( x, y, 8, 18 );
-});
-stack3.label = 'Stack 3';
+// Aliens
+const alienRadius = 20;
+const alienImgPx = 300;
+const alienScale = ( alienRadius * 2 ) / alienImgPx;
+const freezeAlienRotation = false;
+
+function createAlien( x, y ) {
+    const body = Matter.Bodies.polygon( x, y, 8, alienRadius, {
+        label: 'targetAlien',
+        render: {
+            sprite: {
+                texture: 'img/alien.png',
+                xScale: alienScale,
+                yScale: alienScale
+            }
+        }
+    });
+
+    if ( freezeAlienRotation ) {
+        body.inertia = Infinity;
+        body.inverseInertia = 0;
+    }
+    return body;
+}
+
+let alienStack1 = Matter.Composites.stack( 815, 270, 4, 4, 0, 0, ( x, y ) => createAlien( x, y ) );
+alienStack1.label = 'Aliens Stack 1';
+let alienStack2 = Matter.Composites.stack( 515, 270, 4, 4, 0, 0, ( x, y ) => createAlien( x, y ) );
+alienStack2.label = 'Aliens Stack 2';
+let alienStack3 = Matter.Composites.stack( 700, 60, 2, 2, 0, 0, ( x, y ) => createAlien( x, y ) );
+alienStack3.label = 'Aliens Stack 3';
 
 // Firing
 let firing = false;
 Matter.Events.on( mouseConstraint, 'enddrag', function( e ) {
-    if ( e.body === ball ) firing = true;
+    if ( e.body === star ) firing = true;
 });
 Matter.Events.on( engine, 'afterUpdate', function() {
-    if ( firing && Math.abs( ball.position.x - 300) < 20 && Math.abs( ball.position.y - 500 ) < 20 ) {
-        ball = Matter.Bodies.circle( 300, 500, 20, { label: 'playerBall' } );
+    if ( firing && Math.abs( star.position.x - origin.x) < 20 && Math.abs( star.position.y - origin.y ) < 20 ) {
+        star = createStar();
         // Adding new ball after firing
-        Matter.World.add( engine.world, ball );
-        sling.bodyB = ball;
+        Matter.World.add( engine.world, star );
+        sling.bodyB = star;
         firing = false;
     }
 });
@@ -73,7 +128,7 @@ Matter.Events.on( engine, 'afterUpdate', function() {
 // -----------------------
 //      Winner Modal
 // -----------------------
-function makePlatformSensor( platformBody, name ) {
+function makeUfoSensor( platformBody, name ) {
     const b = platformBody.bounds;
     const width = b.max.x - b.min.x;
     return Matter.Bodies.rectangle(
@@ -84,28 +139,27 @@ function makePlatformSensor( platformBody, name ) {
         { isStatic: true, isSensor: true, render: { visible: false }, label: name }
     );
 }
-const sensor1 = makePlatformSensor( ground, 'Sensor 1');
-const sensor2 = makePlatformSensor( ground2, 'Sensor 2' );
-const sensor3 = makePlatformSensor( ground3, 'Sensor 3' );
+const sensor1 = makeUfoSensor( ufo1, 'Sensor 1');
+const sensor2 = makeUfoSensor( ufo2, 'Sensor 2' );
+const sensor3 = makeUfoSensor( ufo3, 'Sensor 3' );
 const sensors = new Set([ sensor1, sensor2, sensor3 ]);
 
 // Tracker
-const targetsOn = new Set();
-const ballsOn = new Set();
-
-const allTargetIds = new Set([
-    ...stack.bodies.map( b => b.id ),
-    ...stack2.bodies.map( b => b.id ),
-    ...stack3.bodies.map( b => b.id ),
+const aliensOn = new Set();
+const starsOn = new Set();
+const alienIds = new Set([
+    ...alienStack1.bodies.map( b => b.id ),
+    ...alienStack2.bodies.map( b => b.id ),
+    ...alienStack3.bodies.map( b => b.id ),
 ]);
 
 function addIfRelevant( body ) {
-    if ( allTargetIds.has( body.id ) ) targetsOn.add( body.id );
-    if ( body.label === 'playerBall' ) ballsOn.add( body.id );
+    if ( alienIds.has( body.id ) ) aliensOn.add( body.id );
+    if ( body.label === 'playerStar' ) starsOn.add( body.id );
 }
 function removeIfRelevant( body ) {
-    if ( allTargetIds.has( body.id ) ) targetsOn.delete( body.id );
-    if ( body.label === 'playerBall' ) ballsOn.delete( body.id );
+    if ( alienIds.has( body.id ) ) aliensOn.delete( body.id );
+    if ( body.label === 'playerStar' ) starsOn.delete( body.id );
 }
 
 // Listen for collisions
@@ -125,11 +179,11 @@ Matter.Events.on( engine, 'collisionEnd', ( evt ) => {
 });
 Matter.Events.on( engine, 'afterUpdate', function seedOnce() {
     Matter.Events.off( engine, 'afterUpdate', seedOnce );
-    const stacks = [ stack, stack2, stack3 ];
+    const stacks = [ alienStack1, alienStack2, alienStack3 ];
     const platformSensors = [ sensor1, sensor2, sensor3 ];
     for ( const s of stacks ) {
         for ( const sens of platformSensors ) {
-            const inital = Matter.Query.collides( sens, s.bodies );
+            const initial = Matter.Query.collides( sens, s.bodies );
             for ( const p of initial ) {
                 const other = p.bodyA === sens ? p.bodyB : p.bodyA;
                 addIfRelevant( other );
@@ -158,7 +212,7 @@ function showWinnerModal() {
 }
 Matter.Events.on( engine, 'afterUpdate', function () {
     if ( !hasWon ) {
-        const allPlatformsEmpty = targetsOn.size === 0;
+        const allPlatformsEmpty = aliensOn.size === 0;
         if ( allPlatformsEmpty ) {
             hasWon = true;
             showWinnerModal();
@@ -177,7 +231,7 @@ const horizontalMotion = {
 };
 
 Matter.Events.on( engine, 'beforeUpdate', function() {
-    const x = ground3.position.x;
+    const x = ufo3.position.x;
     let nextX = x + horizontalMotion.speed * horizontalMotion.dir;
 
     if ( nextX < horizontalMotion.minX ) { nextX = horizontalMotion.minX; horizontalMotion.dir = 1; }
@@ -186,9 +240,9 @@ Matter.Events.on( engine, 'beforeUpdate', function() {
     const dx = nextX - x;
     if ( dx === 0 ) return;
 
-    Matter.Body.translate( ground3, { x: dx, y: 0} );
+    Matter.Body.translate( ufo3, { x: dx, y: 0} );
     Matter.Body.translate( sensor3, { x: dx, y: 0 } );
-    Matter.Composite.translate( stack3, { x:dx, y: 0 } );
+    Matter.Composite.translate( alienStack3, { x:dx, y: 0 } );
 });
 
 
@@ -197,13 +251,13 @@ Matter.Events.on( engine, 'beforeUpdate', function() {
 // --------------------------
 Matter.World.add( engine.world, [
     // Stacks
-    stack, stack2, stack3,
+    alienStack1, alienStack2, alienStack3,
     // Platforms
-    ground, ground2, ground3,
+    ufo1, ufo2, ufo3,
     // Sensors
     sensor1, sensor2, sensor3,
     // Player & controls
-    ball, sling, mouseConstraint 
+    star, sling, mouseConstraint 
 ]);
 Matter.Engine.run( engine );
 Matter.Render.run( render );
