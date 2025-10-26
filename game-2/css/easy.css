@@ -1,4 +1,4 @@
-/* .avatar {
+.avatar {
     position: absolute;
     bottom: 30px;
     left: 30px;
@@ -7,4 +7,4 @@
     width: 30%;
     animation: float 4s ease-in-out infinite;
     will-change: transform;
-} */
+}
