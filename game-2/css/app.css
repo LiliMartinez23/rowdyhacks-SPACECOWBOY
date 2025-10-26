@@ -85,6 +85,8 @@ p {
 }
 .ufo img {
     width: 50%;
+    animation: float 4s ease-in-out infinite;
+    will-change: transform;
 }
 
 .animal-planet {
@@ -94,4 +96,17 @@ p {
 }
 .animal-planet img {
     width: 50%;
+    animation: float 4s ease-in-out infinite;
+    will-change: transform;
+}
+
+.rocket {
+    position: fixed;
+    bottom: 140px;
+    left: 250px;
+}
+.rocket img {
+    width: 30%;
+    animation: float 4s ease-in-out infinite;
+    will-change: transform;
 }
